@@ -1,0 +1,110 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/*
+ * Identidade DietFlow — SaaS clínico.
+ * Sobrescreve os tokens semânticos do HeroUI fora de @layer, para vencer a
+ * cascata do tema default sem precisar de !important nem de tema custom.
+ */
+[data-theme="light"],
+[data-theme="default"] {
+  /* Verde-teal profundo: cor de ação primária. */
+  --accent: oklch(0.52 0.09 174);
+  --accent-hover: oklch(0.455 0.088 174);
+  --accent-foreground: oklch(0.995 0 0);
+  --accent-soft: oklch(0.966 0.019 174);
+  --accent-soft-foreground: oklch(0.4 0.075 174);
+  --accent-soft-hover: oklch(0.942 0.029 174);
+
+  /* Fundo levemente esverdeado, superfícies brancas. */
+  --background: oklch(0.977 0.004 170);
+  --background-secondary: oklch(0.962 0.005 170);
+  --surface: oklch(1 0 0);
+  --surface-secondary: oklch(0.985 0.003 170);
+  --surface-tertiary: oklch(0.966 0.005 170);
+
+  /* Bordas sutis e texto com hierarquia forte. */
+  --border: oklch(0.915 0.006 170);
+  --border-secondary: oklch(0.945 0.005 170);
+  --separator: oklch(0.925 0.005 170);
+  --foreground: oklch(0.245 0.012 260);
+  --muted: oklch(0.545 0.014 260);
+
+  /*
+   * O tema default do HeroUI entrega campos sem borda, definidos só por sombra
+   * (--field-border-width: 0). Num SaaS clínico sobre superfície branca isso
+   * apaga o controle — em especial o checkbox de seleção do card. Campo
+   * bordado é o padrão aqui.
+   */
+  --field-border-width: 1px;
+  --field-border: oklch(0.855 0.009 170);
+  --field-border-hover: oklch(0.76 0.02 174);
+
+  /* Raio moderado + foco na cor da marca. */
+  --radius: 0.75rem;
+  --focus: var(--accent);
+  --link: var(--accent);
+  --field-border-focus: var(--accent);
+}
+
+/*
+ * Dark mode — mesma identidade teal, tokens recalibrados para fundo escuro.
+ * HeroUI alterna por `[data-theme="dark"]` (ou `.dark`); `ThemeToggle.tsx`
+ * escreve esse atributo no <html>. Sem este bloco, o dark mode ainda
+ * funcionaria (HeroUI tem os próprios tokens escuros), mas cairia no cinza
+ * genérico do tema base em vez da marca.
+ */
+[data-theme="dark"] {
+  --accent: oklch(0.64 0.105 174);
+  --accent-hover: oklch(0.7 0.1 174);
+  --accent-foreground: oklch(0.14 0.02 174);
+  --accent-soft: oklch(0.24 0.035 174);
+  --accent-soft-foreground: oklch(0.82 0.06 174);
+  --accent-soft-hover: oklch(0.28 0.042 174);
+
+  --background: oklch(0.16 0.006 170);
+  --background-secondary: oklch(0.19 0.006 170);
+  --surface: oklch(0.205 0.006 170);
+  --surface-secondary: oklch(0.235 0.006 170);
+  --surface-tertiary: oklch(0.26 0.006 170);
+
+  --border: oklch(0.3 0.008 170);
+  --border-secondary: oklch(0.26 0.007 170);
+  --separator: oklch(0.28 0.007 170);
+  --foreground: oklch(0.93 0.004 170);
+  --muted: oklch(0.62 0.012 170);
+
+  --field-border-width: 1px;
+  --field-border: oklch(0.32 0.01 170);
+  --field-border-hover: oklch(0.4 0.025 174);
+
+  --radius: 0.75rem;
+  --focus: var(--accent);
+  --link: var(--accent);
+  --field-border-focus: var(--accent);
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    font-family:
+      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Números de telefone, datas e contagens alinham melhor tabulares. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * O controle do checkbox deriva o raio de `calc(var(--radius) * .75)`. Com o
+ * --radius de 0.75rem que os cards pedem, um alvo de 16px vira círculo e passa
+ * a ler como radio. Quadrado arredondado devolve a semântica de marcação.
+ */
+.checkbox__control {
+  border-radius: 0.3125rem;
+}
