@@ -50,15 +50,16 @@ export function ParametrosSection({
 
       <div className="grid items-start gap-4 lg:grid-cols-3">
         {/* ---------------------------------------------------------- */}
-        <Card className="flex flex-col gap-5 rounded-2xl p-6">
-          <div>
-            <h3 className="text-foreground text-lg font-medium">Paciente</h3>
-            <p className="text-muted mt-0.5 text-sm">
+        <Card className="gap-5 rounded-2xl p-6">
+          <Card.Header>
+            <Card.Title className="text-lg leading-7 font-medium">Paciente</Card.Title>
+            <Card.Description>
               {PACIENTE_DEMO.idade} anos · {PACIENTE_DEMO.sexo === "F" ? "Feminino" : "Masculino"} ·
               do cadastro
-            </p>
-          </div>
+            </Card.Description>
+          </Card.Header>
 
+          <Card.Content className="gap-5">
           <div className="grid grid-cols-2 gap-3">
             <NumberField
               fullWidth
@@ -108,29 +109,30 @@ export function ParametrosSection({
             </NumberField.Group>
           </NumberField>
 
-          <div className="bg-surface-secondary border-border mt-auto rounded-xl border p-3.5">
+          <Card className="mt-auto gap-1.5 rounded-xl p-3.5" variant="secondary">
             <div className="flex items-baseline justify-between">
               <p className="text-muted text-xs">Massa magra derivada</p>
               <p className="text-foreground text-sm font-semibold tabular-nums">
                 {derivado.massaMagra > 0 ? `${g1Fmt(derivado.massaMagra)} kg` : "—"}
               </p>
             </div>
-            <div className="mt-1.5 flex items-baseline justify-between">
+            <div className="flex items-baseline justify-between">
               <p className="text-muted text-xs">IMC</p>
               <p className="text-foreground text-sm font-semibold tabular-nums">
                 {g1Fmt(derivado.imc)} kg/m²
               </p>
             </div>
-          </div>
+          </Card>
+          </Card.Content>
         </Card>
 
         {/* ---------------------------------------------------------- */}
-        <Card className="flex flex-col gap-5 rounded-2xl p-6">
+        <Card className="gap-5 rounded-2xl p-6">
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <h3 className="text-foreground text-lg font-medium">Gasto energético</h3>
-              <p className="text-muted mt-0.5 text-sm">Fórmula, atividade e treinos</p>
-            </div>
+            <Card.Header>
+              <Card.Title className="text-lg leading-7 font-medium">Gasto energético</Card.Title>
+              <Card.Description>Fórmula, atividade e treinos</Card.Description>
+            </Card.Header>
             <Switch
               isSelected={inputs.inteligente}
               onChange={(selecionado) => patch("inteligente", selecionado)}
@@ -145,6 +147,7 @@ export function ParametrosSection({
             </Switch>
           </div>
 
+          <Card.Content className="gap-5">
           {inputs.inteligente && derivado.sugestao && (
             <p className="bg-accent-soft text-accent-soft-foreground rounded-lg px-3 py-2 text-xs leading-relaxed">
               {derivado.sugestao.motivo}
@@ -208,7 +211,10 @@ export function ParametrosSection({
             </Chip>
           )}
 
-          <ul className="border-border mt-auto flex flex-col gap-3 border-t pt-4">
+          </Card.Content>
+
+          <Card.Footer className="border-border mt-auto border-t pt-4">
+          <ul className="flex w-full flex-col gap-3">
             {derivado.treinosResolvidos.map((treino) => (
               <li className="flex items-center justify-between gap-3" key={treino.id}>
                 <div className="min-w-0">
@@ -234,15 +240,17 @@ export function ParametrosSection({
               </li>
             ))}
           </ul>
+          </Card.Footer>
         </Card>
 
         {/* ---------------------------------------------------------- */}
-        <Card className="flex flex-col gap-6 rounded-2xl p-6">
-          <div>
-            <h3 className="text-foreground text-lg font-medium">Objetivo</h3>
-            <p className="text-muted mt-0.5 text-sm">Meta de peso e prazo definem o ajuste</p>
-          </div>
+        <Card className="gap-6 rounded-2xl p-6">
+          <Card.Header>
+            <Card.Title className="text-lg leading-7 font-medium">Objetivo</Card.Title>
+            <Card.Description>Meta de peso e prazo definem o ajuste</Card.Description>
+          </Card.Header>
 
+          <Card.Content className="gap-6">
           <Slider
             maxValue={20}
             minValue={-20}
@@ -250,21 +258,19 @@ export function ParametrosSection({
             step={0.5}
             value={inputs.metaPeso}
           >
-            <div className="flex items-center justify-between">
-              <Label>Meta de peso</Label>
-              <span
-                className={`text-sm font-semibold tabular-nums ${
-                  inputs.metaPeso < 0
-                    ? "text-danger"
-                    : inputs.metaPeso > 0
-                      ? "text-success"
-                      : "text-muted"
-                }`}
-              >
-                {inputs.metaPeso > 0 ? "+" : ""}
-                {g1Fmt(inputs.metaPeso)} kg
-              </span>
-            </div>
+            <Label>Meta de peso</Label>
+            <Slider.Output
+              className={`text-sm font-semibold tabular-nums ${
+                inputs.metaPeso < 0
+                  ? "text-danger"
+                  : inputs.metaPeso > 0
+                    ? "text-success"
+                    : "text-muted"
+              }`}
+            >
+              {inputs.metaPeso > 0 ? "+" : ""}
+              {g1Fmt(inputs.metaPeso)} kg
+            </Slider.Output>
             <Slider.Track>
               <Slider.Fill />
               <Slider.Thumb />
@@ -278,19 +284,18 @@ export function ParametrosSection({
             step={1}
             value={inputs.tempoSemanas}
           >
-            <div className="flex items-center justify-between">
-              <Label>Prazo estimado</Label>
-              <span className="text-foreground text-sm font-semibold tabular-nums">
-                {inputs.tempoSemanas} semanas
-              </span>
-            </div>
+            <Label>Prazo estimado</Label>
+            <Slider.Output className="text-foreground text-sm font-semibold tabular-nums">
+              {inputs.tempoSemanas} semanas
+            </Slider.Output>
             <Slider.Track>
               <Slider.Fill />
               <Slider.Thumb />
             </Slider.Track>
           </Slider>
+          </Card.Content>
 
-          <div className="bg-accent-soft mt-auto rounded-xl p-4">
+          <Card.Footer className="bg-accent-soft mt-auto flex-col items-stretch gap-1.5 rounded-xl p-4">
             <p className="text-accent-soft-foreground text-sm leading-relaxed">
               {derivado.ajuste === 0 ? (
                 <>Sem meta de variação: o VET permanece igual ao gasto total.</>
@@ -304,10 +309,10 @@ export function ParametrosSection({
                 </>
               )}
             </p>
-            <p className="text-accent-soft-foreground/70 mt-1.5 text-xs">
+            <p className="text-accent-soft-foreground/70 text-xs">
               Equivalência usada pelo motor: 1 kg ≈ 7.700 kcal.
             </p>
-          </div>
+          </Card.Footer>
         </Card>
       </div>
     </section>

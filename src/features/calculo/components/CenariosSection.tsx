@@ -67,7 +67,7 @@ export function CenariosSection({ derivado, modo, onModoChange }: CenariosSectio
               ? CalendarDays
               : Coffee;
           return (
-            <Card className="flex flex-col gap-3 rounded-2xl p-5" key={cenario.nome}>
+            <Card className="gap-3 rounded-2xl p-5" key={cenario.nome}>
               <div className="flex items-start justify-between gap-2">
                 <span className="bg-surface-secondary border-border flex size-9 items-center justify-center rounded-full border">
                   <Icone aria-hidden className="text-muted size-4" />
@@ -79,21 +79,23 @@ export function CenariosSection({ derivado, modo, onModoChange }: CenariosSectio
                 </Chip>
               </div>
 
-              <div>
-                <h3 className="text-foreground text-base font-semibold">{cenario.nome}</h3>
-                <p className="text-muted mt-0.5 text-xs tracking-wide">
+              <Card.Header>
+                <Card.Title className="text-base leading-6 font-semibold">
+                  {cenario.nome}
+                </Card.Title>
+                <Card.Description className="text-xs tracking-wide">
                   {cenario.dias.join(" · ")}
-                </p>
-              </div>
+                </Card.Description>
+              </Card.Header>
 
-              <div className="border-border mt-auto flex items-baseline justify-between border-t pt-3">
+              <Card.Footer className="border-border mt-auto items-baseline justify-between border-t pt-3">
                 <p className="text-muted text-xs">
                   {cenario.gmt > 0 ? `Treino +${kcalFmt(cenario.gmt)} kcal` : "Sem treino"}
                 </p>
                 <p className="text-foreground text-sm font-semibold tabular-nums">
                   {kcalFmt(cenario.vet)} <span className="text-muted text-xs font-normal">kcal</span>
                 </p>
-              </div>
+              </Card.Footer>
             </Card>
           );
         })}
