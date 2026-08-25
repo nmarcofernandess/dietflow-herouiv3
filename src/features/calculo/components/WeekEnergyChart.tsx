@@ -19,21 +19,21 @@ export function WeekEnergyChart({ derivado }: WeekEnergyChartProps) {
   const mediaPct = (energia.vet / max) * 100;
 
   return (
-    <Card className="flex flex-col gap-5 rounded-2xl p-6">
+    <Card className="gap-5 rounded-2xl p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h3 className="text-foreground text-lg font-medium">Energia ao longo da semana</h3>
-          <p className="text-muted mt-0.5 text-sm">
-            VET de cada dia com a compensação dos treinos
-          </p>
-        </div>
+        <Card.Header>
+          <Card.Title className="text-lg leading-7 font-medium">
+            Energia ao longo da semana
+          </Card.Title>
+          <Card.Description>VET de cada dia com a compensação dos treinos</Card.Description>
+        </Card.Header>
         <p className="text-muted max-w-52 text-right text-xs leading-relaxed">
           A linha marca a média semanal de {kcalFmt(energia.vet)} kcal, aplicada quando o plano não
           separa dias.
         </p>
       </div>
 
-      <div>
+      <Card.Content className="gap-5"><div>
         <p className="text-foreground text-4xl font-semibold tracking-tight tabular-nums">
           {kcalFmt(energia.get)}{" "}
           <span className="text-muted text-base font-normal tracking-normal">kcal</span>
@@ -41,7 +41,11 @@ export function WeekEnergyChart({ derivado }: WeekEnergyChartProps) {
         <p className="text-muted mt-1 text-sm">Gasto energético total médio (GET)</p>
       </div>
 
-      <div className="relative mt-2 h-44">
+      <div
+        aria-label={`Valor energético por dia: ${vetDiario.map((d) => `${d.dia} ${kcalFmt(d.total)} kcal`).join(", ")}`}
+        className="relative mt-2 h-44"
+        role="img"
+      >
         <div
           aria-hidden
           className="border-muted/50 absolute inset-x-0 z-10 border-t border-dashed"
@@ -89,7 +93,9 @@ export function WeekEnergyChart({ derivado }: WeekEnergyChartProps) {
         </div>
       </div>
 
-      <div className="text-muted flex items-center gap-4 text-xs">
+      </Card.Content>
+
+      <Card.Footer className="text-muted gap-4 text-xs">
         <span className="flex items-center gap-1.5">
           <span
             aria-hidden
@@ -102,7 +108,7 @@ export function WeekEnergyChart({ derivado }: WeekEnergyChartProps) {
           <span aria-hidden className="size-2 rounded-full" style={{ backgroundColor: "var(--accent)" }} />
           Compensação de treino
         </span>
-      </div>
+      </Card.Footer>
     </Card>
   );
 }

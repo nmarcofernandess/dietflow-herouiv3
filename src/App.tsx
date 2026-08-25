@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Toast } from "@heroui/react";
+import { Toast, ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import { Calculator, Users } from "lucide-react";
 
 import { PatientsPage } from "@/features/patients/PatientsPage";
@@ -19,32 +19,32 @@ export default function App() {
       {page === "pacientes" ? <PatientsPage /> : <CalculoPage />}
 
       <nav className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2">
-        <div className="border-border bg-surface/90 flex items-center gap-1 rounded-full border p-1 shadow-lg backdrop-blur-md">
-          <button
-            type="button"
-            onClick={() => setPage("calculo")}
-            className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-              page === "calculo"
-                ? "bg-foreground text-background"
-                : "text-muted hover:text-foreground"
-            }`}
+        <ToggleButtonGroup
+          aria-label="Demo em exibição"
+          className="border-border bg-surface/90 gap-1 rounded-full border p-1 shadow-lg backdrop-blur-md"
+          disallowEmptySelection
+          onSelectionChange={(keys) => {
+            const [first] = Array.from(keys);
+            if (first) setPage(String(first) as DemoPage);
+          }}
+          selectedKeys={[page]}
+          selectionMode="single"
+        >
+          <ToggleButton
+            className="data-selected:bg-foreground data-selected:text-background rounded-full text-xs font-semibold"
+            id="calculo"
           >
-            <Calculator className="size-3.5" />
+            <Calculator aria-hidden className="size-3.5" />
             Cálculo
-          </button>
-          <button
-            type="button"
-            onClick={() => setPage("pacientes")}
-            className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-              page === "pacientes"
-                ? "bg-foreground text-background"
-                : "text-muted hover:text-foreground"
-            }`}
+          </ToggleButton>
+          <ToggleButton
+            className="data-selected:bg-foreground data-selected:text-background rounded-full text-xs font-semibold"
+            id="pacientes"
           >
-            <Users className="size-3.5" />
+            <Users aria-hidden className="size-3.5" />
             Pacientes
-          </button>
-        </div>
+          </ToggleButton>
+        </ToggleButtonGroup>
       </nav>
 
       <Toast.Provider placement="top end" />
